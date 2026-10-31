@@ -1,0 +1,26 @@
+## .NET / Avalonia
+bin/
+obj/
+obj-*/
+bin-*/
+*.user
+*.suo
+.vs/
+.vscode/
+.idea/
+
+## 构建输出
+[Dd]ebug/
+[Rr]elease/
+publish/
+artifacts/
+
+## NuGet
+*.nupkg
+packages/
+
+## macOS
+.DS_Store
+
+## 其它
+*.log

@@ -1,0 +1,49 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="ClassVaneCanvas.Views.Dialogs.AnnotationConflictDialog"
+        Title="批注冲突"
+        Width="600"
+        SizeToContent="Height"
+        CanResize="False"
+        ShowInTaskbar="False"
+        WindowStartupLocation="CenterOwner"
+        FontFamily="{DynamicResource CvFontFamily}">
+  <StackPanel Margin="28" Spacing="18">
+    <TextBlock Text="批注冲突" FontSize="20" FontWeight="SemiBold"
+               Foreground="{DynamicResource CvTextPrimaryBrush}" />
+
+    <TextBlock x:Name="MessageText" FontSize="14" LineHeight="24" TextWrapping="Wrap"
+               Foreground="{DynamicResource CvTextPrimaryBrush}" />
+
+    <Border Background="{DynamicResource CvCardBackgroundBrush}"
+            BorderBrush="{DynamicResource CvCardBorderBrush}"
+            BorderThickness="1"
+            CornerRadius="10"
+            Padding="16,14">
+      <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto">
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="版本" FontSize="12"
+                   Foreground="{DynamicResource CvTextTertiaryBrush}" />
+        <TextBlock Grid.Row="0" Grid.Column="1" Text="最后修改 / 笔迹数" FontSize="12"
+                   Foreground="{DynamicResource CvTextTertiaryBrush}" />
+
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="本机" FontSize="13" FontWeight="SemiBold" Margin="0,8,0,0" />
+        <TextBlock x:Name="LocalDetailText" Grid.Row="1" Grid.Column="1" FontSize="13" Margin="0,8,0,0"
+                   Foreground="{DynamicResource CvTextSecondaryBrush}" />
+
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="远端" FontSize="13" FontWeight="SemiBold" Margin="0,6,0,0" />
+        <TextBlock x:Name="RemoteDetailText" Grid.Row="2" Grid.Column="1" FontSize="13" Margin="0,6,0,0"
+                   Foreground="{DynamicResource CvTextSecondaryBrush}" />
+      </Grid>
+    </Border>
+
+    <TextBlock Text="选择处理方式：合并会保留两边的笔迹（按笔迹 Id 去重）。"
+               FontSize="12" TextWrapping="Wrap"
+               Foreground="{DynamicResource CvTextTertiaryBrush}" />
+
+    <StackPanel Orientation="Horizontal" Spacing="12" HorizontalAlignment="Right">
+      <Button x:Name="KeepRemoteButton" Classes="touch" Content="保留远端" MinWidth="130" />
+      <Button x:Name="KeepLocalButton" Classes="touch" Content="保留本地" MinWidth="130" />
+      <Button x:Name="MergeButton" Classes="touch accent" Content="合并笔迹" MinWidth="130" />
+    </StackPanel>
+  </StackPanel>
+</Window>

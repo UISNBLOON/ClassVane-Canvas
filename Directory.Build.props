@@ -1,0 +1,27 @@
+<Project>
+
+  <!--
+    隔离构建目录支持（默认完全不生效，使用标准 obj/ bin/）。
+
+    设置 CV_BUILD_TAG 后，每个项目会在自身目录下使用 obj-<tag>/ 与 bin-<tag>/，
+    例如：dotnet build src/ClassVaneCanvas -p:CV_BUILD_TAG=a1
+    用于在同一份工作区里并行构建（CI 分片、多人/多 Agent 同时改代码）而不互相抢文件锁。
+    同时把 obj-*/ bin-*/ 从默认通配项中剔除，避免其中的生成代码被重复编译。
+  -->
+  <PropertyGroup Condition="'$(CV_BUILD_TAG)' != ''">
+    <BaseIntermediateOutputPath>$(MSBuildProjectDirectory)/obj-$(CV_BUILD_TAG)/</BaseIntermediateOutputPath>
+    <BaseOutputPath>$(MSBuildProjectDirectory)/bin-$(CV_BUILD_TAG)/</BaseOutputPath>
+  </PropertyGroup>
+
+  <!--
+    任何 obj*/ bin*/ 目录都必须排除在默认通配之外，否则其中的生成代码会被重复编译（CS0579
+    「特性重复」）。注意：
+    · DefaultItemExcludes 在 SDK 展开通配之前生效，不能用 <Compile Remove> 代替（求值时机太晚）；
+    · 这里必须**无条件**生效：带 tag 构建时 SDK 只排除自己的 obj-<tag>/，
+      别人一次不带 tag 的构建留下的 obj/、bin/ 仍会被通配进来，进而让所有人的构建失败。
+  -->
+  <PropertyGroup>
+    <DefaultItemExcludes>$(DefaultItemExcludes);obj*/**;bin*/**;**/obj*/**;**/bin*/**</DefaultItemExcludes>
+  </PropertyGroup>
+
+</Project>

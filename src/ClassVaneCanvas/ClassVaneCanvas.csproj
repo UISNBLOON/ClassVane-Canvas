@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>ClassVaneCanvas</RootNamespace>
+    <AssemblyName>ClassVaneCanvas</AssemblyName>
+    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+  </PropertyGroup>
+
+  <!-- 版本 / 版权元数据：关于页通过 ViewModel 动态读取，界面中不出现硬编码版本号 -->
+  <PropertyGroup>
+    <Version>0.1.0</Version>
+    <AssemblyVersion>0.1.0.0</AssemblyVersion>
+    <FileVersion>0.1.0.0</FileVersion>
+    <Product>ClassVane Canvas</Product>
+    <Company>NoxBlaze</Company>
+    <Authors>NoxBlaze</Authors>
+    <Copyright>NoxBlaze</Copyright>
+    <Description>跨平台 PPT 放映与板书批注工具</Description>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="Assets/**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- 仓库根目录的 NOTICE 随生成 / 发布产物一起分发 -->
+    <None Include="../../NOTICE" Link="NOTICE" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.3.22" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.3.22" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.22" />
+    <PackageReference Include="Avalonia.Diagnostics" Version="11.3.22" Condition="'$(Configuration)' == 'Debug'" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+    <!-- 本机播放进度记录（独立 SQLite 数据库，与批注完全隔离，绝不参与同步） -->
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.20" />
+  </ItemGroup>
+
+</Project>

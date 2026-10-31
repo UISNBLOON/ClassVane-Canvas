@@ -1,0 +1,22 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="ClassVaneCanvas.Views.Dialogs.ConfirmDialog"
+        Width="520"
+        SizeToContent="Height"
+        CanResize="False"
+        ShowInTaskbar="False"
+        WindowStartupLocation="CenterOwner"
+        FontFamily="{DynamicResource CvFontFamily}">
+  <StackPanel Margin="28" Spacing="18">
+    <TextBlock x:Name="TitleText" FontSize="20" FontWeight="SemiBold"
+               Foreground="{DynamicResource CvTextPrimaryBrush}" />
+
+    <TextBlock x:Name="MessageText" FontSize="14" LineHeight="24" TextWrapping="Wrap"
+               Foreground="{DynamicResource CvTextPrimaryBrush}" />
+
+    <StackPanel Orientation="Horizontal" Spacing="12" HorizontalAlignment="Right">
+      <Button x:Name="CancelButton" Classes="touch" Content="取消" MinWidth="120" />
+      <Button x:Name="ConfirmButton" Classes="touch accent" Content="确定" MinWidth="120" />
+    </StackPanel>
+  </StackPanel>
+</Window>

@@ -1,0 +1,18 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:ClassVaneCanvas.ViewModels"
+        x:Class="ClassVaneCanvas.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Title="ClassVane Canvas"
+        Width="1280"
+        Height="820"
+        MinWidth="760"
+        MinHeight="560"
+        FontFamily="{DynamicResource CvFontFamily}">
+  <!--
+    窗口图标同样跟随 Logo 预留位：Logo 上传到 Assets/logo.png 后由 MainWindow.axaml.cs 自动设置，
+    资源缺失时跳过设置，避免启动失败。
+  -->
+  <!-- Current 在「设置（默认关于页）」与「放映」两个视图之间切换 -->
+  <ContentControl Content="{Binding Current}" />
+</Window>

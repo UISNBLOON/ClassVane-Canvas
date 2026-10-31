@@ -1,0 +1,59 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <!--
+    应用级主题资源。
+    · "Default" 存放浅色配色，同时作为所有未单独定义变体（例如跟随系统的未知变体）的回退值；
+    · "Dark" 存放深色配色。
+    页面统一用 {DynamicResource} 引用，主题切换时无需重建控件即可自动换色。
+  -->
+  <ResourceDictionary.ThemeDictionaries>
+
+    <ResourceDictionary x:Key="Default">
+      <SolidColorBrush x:Key="CvPageBackgroundBrush" Color="Transparent" />
+      <SolidColorBrush x:Key="CvSidebarBackgroundBrush" Color="#F5F6F8" />
+      <SolidColorBrush x:Key="CvCardBackgroundBrush" Color="#FFFFFF" />
+      <SolidColorBrush x:Key="CvCardBorderBrush" Color="#E4E8EF" />
+      <SolidColorBrush x:Key="CvDividerBrush" Color="#E3E6EC" />
+      <SolidColorBrush x:Key="CvTextPrimaryBrush" Color="#1B1D21" />
+      <SolidColorBrush x:Key="CvTextSecondaryBrush" Color="#5A6272" />
+      <SolidColorBrush x:Key="CvTextTertiaryBrush" Color="#8A93A5" />
+      <SolidColorBrush x:Key="CvLinkBrush" Color="#2563EB" />
+      <SolidColorBrush x:Key="CvLinkHoverBrush" Color="#1D4ED8" />
+      <SolidColorBrush x:Key="CvAccentBrush" Color="#3B82F6" />
+      <SolidColorBrush x:Key="CvAccentHoverBrush" Color="#2F73E4" />
+      <SolidColorBrush x:Key="CvWarningBrush" Color="#B45309" />
+      <SolidColorBrush x:Key="CvDangerBrush" Color="#DC2626" />
+      <SolidColorBrush x:Key="CvDangerHoverBrush" Color="#B91C1C" />
+      <SolidColorBrush x:Key="CvLogoPlateBrush" Color="#EEF2FA" />
+      <SolidColorBrush x:Key="CvNavSelectedBackgroundBrush" Color="#E4EDFE" />
+      <SolidColorBrush x:Key="CvNavHoverBackgroundBrush" Color="#EDF0F6" />
+    </ResourceDictionary>
+
+    <ResourceDictionary x:Key="Dark">
+      <SolidColorBrush x:Key="CvPageBackgroundBrush" Color="Transparent" />
+      <SolidColorBrush x:Key="CvSidebarBackgroundBrush" Color="#1F2228" />
+      <SolidColorBrush x:Key="CvCardBackgroundBrush" Color="#262A31" />
+      <SolidColorBrush x:Key="CvCardBorderBrush" Color="#3A404A" />
+      <SolidColorBrush x:Key="CvDividerBrush" Color="#34383F" />
+      <SolidColorBrush x:Key="CvTextPrimaryBrush" Color="#F2F4F8" />
+      <SolidColorBrush x:Key="CvTextSecondaryBrush" Color="#AAB2C2" />
+      <SolidColorBrush x:Key="CvTextTertiaryBrush" Color="#7E8798" />
+      <SolidColorBrush x:Key="CvLinkBrush" Color="#6EA8FF" />
+      <SolidColorBrush x:Key="CvLinkHoverBrush" Color="#9CC4FF" />
+      <SolidColorBrush x:Key="CvAccentBrush" Color="#3B82F6" />
+      <SolidColorBrush x:Key="CvAccentHoverBrush" Color="#5B96F8" />
+      <SolidColorBrush x:Key="CvWarningBrush" Color="#F0B37E" />
+      <SolidColorBrush x:Key="CvDangerBrush" Color="#EF4444" />
+      <SolidColorBrush x:Key="CvDangerHoverBrush" Color="#F87171" />
+      <SolidColorBrush x:Key="CvLogoPlateBrush" Color="#2C313A" />
+      <SolidColorBrush x:Key="CvNavSelectedBackgroundBrush" Color="#2B3A55" />
+      <SolidColorBrush x:Key="CvNavHoverBackgroundBrush" Color="#2A2E36" />
+    </ResourceDictionary>
+
+  </ResourceDictionary.ThemeDictionaries>
+
+  <!-- 中英文混排字体链：优先使用当前平台上可用的中文字体，缺失的名字会被跳过 -->
+  <FontFamily x:Key="CvFontFamily">PingFang SC, Microsoft YaHei UI, Hiragino Sans GB, Source Han Sans SC, Noto Sans CJK SC, Noto Sans SC, Segoe UI, sans-serif</FontFamily>
+
+</ResourceDictionary>

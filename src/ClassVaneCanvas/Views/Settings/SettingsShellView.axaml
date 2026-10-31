@@ -1,0 +1,118 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:ClassVaneCanvas.ViewModels.Settings"
+             xmlns:models="using:ClassVaneCanvas.Models"
+             x:Class="ClassVaneCanvas.Views.Settings.SettingsShellView"
+             x:DataType="vm:SettingsShellViewModel"
+             x:CompileBindings="True">
+
+  <UserControl.Styles>
+    <Style Selector="ListBox.navList">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="Padding" Value="10" />
+    </Style>
+    <!-- 触摸友好的导航项 -->
+    <Style Selector="ListBox.navList ListBoxItem">
+      <Setter Property="MinHeight" Value="56" />
+      <Setter Property="Padding" Value="14,10" />
+      <Setter Property="Margin" Value="0,2" />
+      <Setter Property="CornerRadius" Value="8" />
+    </Style>
+    <Style Selector="ListBox.navList ListBoxItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource CvNavHoverBackgroundBrush}" />
+    </Style>
+    <Style Selector="ListBox.navList ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource CvNavSelectedBackgroundBrush}" />
+    </Style>
+    <Style Selector="ListBox.navList ListBoxItem:selected:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource CvNavSelectedBackgroundBrush}" />
+    </Style>
+  </UserControl.Styles>
+
+  <Grid ColumnDefinitions="268,*">
+
+    <!-- 左侧：设置项导航 -->
+    <Border Grid.Column="0"
+            Background="{DynamicResource CvSidebarBackgroundBrush}"
+            BorderBrush="{DynamicResource CvDividerBrush}"
+            BorderThickness="0,0,1,0">
+      <Grid RowDefinitions="Auto,*,Auto">
+
+        <!-- 侧边栏页眉：Logo 预留位（静态展示，无点击事件） -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="20,22,20,16" Spacing="10">
+          <Panel Width="36" Height="36" VerticalAlignment="Center" IsHitTestVisible="False">
+            <Image Width="36" Height="36" Stretch="Uniform"
+                   Source="{Binding LogoImage}"
+                   IsVisible="{Binding HasLogo}" />
+            <Border IsVisible="{Binding !HasLogo}"
+                    Background="{DynamicResource CvLogoPlateBrush}"
+                    CornerRadius="8">
+              <TextBlock Text="CV"
+                         FontSize="13"
+                         FontWeight="SemiBold"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center"
+                         Foreground="{DynamicResource CvTextSecondaryBrush}" />
+            </Border>
+          </Panel>
+
+          <StackPanel VerticalAlignment="Center">
+            <TextBlock Text="ClassVane Canvas" FontSize="14" FontWeight="SemiBold" />
+            <TextBlock Text="设置" FontSize="12" Foreground="{DynamicResource CvTextTertiaryBrush}" />
+          </StackPanel>
+        </StackPanel>
+
+        <!-- 设置项列表：默认选中「关于」页 -->
+        <ListBox Grid.Row="1"
+                 Classes="navList"
+                 ItemsSource="{Binding Pages}"
+                 SelectedItem="{Binding SelectedPage}">
+          <ListBox.ItemTemplate>
+            <DataTemplate DataType="vm:SettingsPageViewModel">
+              <StackPanel Spacing="2">
+                <TextBlock Text="{Binding Title}" FontSize="14" FontWeight="SemiBold" />
+                <TextBlock Text="{Binding Description}"
+                           FontSize="12"
+                           TextWrapping="Wrap"
+                           Foreground="{DynamicResource CvTextTertiaryBrush}" />
+              </StackPanel>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+
+        <StackPanel Grid.Row="2" Margin="20,16,20,20" Spacing="10">
+          <Border Classes="divider" />
+
+          <!-- 设置 ↔ 放映 切换 -->
+          <Button Classes="touch accent"
+                  Content="进入放映"
+                  Command="{Binding OpenPresentationCommand}"
+                  HorizontalAlignment="Stretch" />
+
+          <!-- 外观主题：跟随系统 / 浅色 / 深色 -->
+          <TextBlock Text="外观主题" FontSize="12" Foreground="{DynamicResource CvTextTertiaryBrush}" />
+          <ComboBox ItemsSource="{Binding ThemeOptions}"
+                    SelectedItem="{Binding SelectedTheme}"
+                    HorizontalAlignment="Stretch"
+                    MinHeight="40">
+            <ComboBox.ItemTemplate>
+              <DataTemplate DataType="models:ThemeOption">
+                <TextBlock Text="{Binding Label}" />
+              </DataTemplate>
+            </ComboBox.ItemTemplate>
+          </ComboBox>
+        </StackPanel>
+
+      </Grid>
+    </Border>
+
+    <!-- 右侧：当前设置页内容（进入设置时默认是关于页） -->
+    <TransitioningContentControl Grid.Column="1" Content="{Binding SelectedPage}">
+      <TransitioningContentControl.PageTransition>
+        <CrossFade Duration="0:0:0.15" />
+      </TransitioningContentControl.PageTransition>
+    </TransitioningContentControl>
+
+  </Grid>
+</UserControl>

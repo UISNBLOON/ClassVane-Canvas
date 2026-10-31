@@ -1,0 +1,24 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:ClassVaneCanvas"
+             x:Class="ClassVaneCanvas.App"
+             RequestedThemeVariant="Default">
+  <!-- RequestedThemeVariant="Default"：跟随操作系统深色 / 浅色设置自动切换 -->
+
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceInclude Source="avares://ClassVaneCanvas/Themes/AppResources.axaml" />
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </Application.Resources>
+
+  <Application.Styles>
+    <FluentTheme />
+    <StyleInclude Source="avares://ClassVaneCanvas/Themes/AppStyles.axaml" />
+  </Application.Styles>
+
+  <Application.DataTemplates>
+    <local:ViewLocator />
+  </Application.DataTemplates>
+</Application>

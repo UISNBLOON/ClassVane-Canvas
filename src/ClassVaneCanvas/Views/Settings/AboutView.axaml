@@ -1,0 +1,224 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:ClassVaneCanvas.ViewModels.Settings"
+             xmlns:models="using:ClassVaneCanvas.Models"
+             x:Class="ClassVaneCanvas.Views.Settings.AboutView"
+             x:DataType="vm:AboutViewModel"
+             x:CompileBindings="True">
+
+  <UserControl.Styles>
+    <Style Selector="TextBlock.pageTitle">
+      <Setter Property="FontSize" Value="26" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+      <Setter Property="Foreground" Value="{DynamicResource CvTextPrimaryBrush}" />
+    </Style>
+    <Style Selector="TextBlock.sectionTitle">
+      <Setter Property="FontSize" Value="18" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+      <Setter Property="Foreground" Value="{DynamicResource CvTextPrimaryBrush}" />
+    </Style>
+    <Style Selector="TextBlock.body">
+      <Setter Property="FontSize" Value="14" />
+      <Setter Property="LineHeight" Value="24" />
+      <Setter Property="TextWrapping" Value="Wrap" />
+      <Setter Property="Foreground" Value="{DynamicResource CvTextPrimaryBrush}" />
+    </Style>
+    <Style Selector="TextBlock.legal">
+      <Setter Property="FontSize" Value="12" />
+      <Setter Property="LineHeight" Value="20" />
+      <Setter Property="TextWrapping" Value="Wrap" />
+      <Setter Property="Foreground" Value="{DynamicResource CvTextSecondaryBrush}" />
+    </Style>
+    <Style Selector="TextBlock.caption">
+      <Setter Property="FontSize" Value="12" />
+      <Setter Property="TextWrapping" Value="Wrap" />
+      <Setter Property="Foreground" Value="{DynamicResource CvTextTertiaryBrush}" />
+    </Style>
+    <Style Selector="Border.noticeCard">
+      <Setter Property="Background" Value="{DynamicResource CvCardBackgroundBrush}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource CvCardBorderBrush}" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="10" />
+      <Setter Property="Padding" Value="16,14" />
+    </Style>
+    <Style Selector="HyperlinkButton.link">
+      <Setter Property="Padding" Value="0" />
+      <Setter Property="MinHeight" Value="0" />
+      <Setter Property="MinWidth" Value="0" />
+      <Setter Property="Cursor" Value="Hand" />
+    </Style>
+    <Style Selector="HyperlinkButton.link TextBlock">
+      <Setter Property="Foreground" Value="{DynamicResource CvLinkBrush}" />
+    </Style>
+    <Style Selector="HyperlinkButton.link:pointerover TextBlock">
+      <Setter Property="Foreground" Value="{DynamicResource CvLinkHoverBrush}" />
+    </Style>
+  </UserControl.Styles>
+
+  <!-- 内容区垂直滚动，适配小屏幕 / 触摸屏 -->
+  <!-- 注意：留白放在内容的 Margin 上，而不是 ScrollViewer.Padding —— 后者不会收窄子元素的测量约束，窄屏下会导致文字溢出被裁切 -->
+  <ScrollViewer VerticalScrollBarVisibility="Auto"
+                HorizontalScrollBarVisibility="Disabled">
+    <StackPanel Spacing="18" MaxWidth="820" HorizontalAlignment="Center" Margin="32,28,32,40">
+
+      <!-- 1. 页面标题 -->
+      <TextBlock Classes="pageTitle" Text="关于 ClassVane Canvas" />
+
+      <!-- 2~3. Logo 位置预留（静态展示，无点击事件）+ 产品标题区 -->
+      <StackPanel Spacing="10" HorizontalAlignment="Center" Margin="0,4,0,2">
+        <!--
+          Logo 预留位：把正式 Logo 上传到 Assets/logo.png 即自动显示；
+          文件不存在时展示占位框，不会因为资源缺失而报错。
+        -->
+        <Panel HorizontalAlignment="Center" IsHitTestVisible="False">
+          <!-- 完整 Logo（含文字标识）：静态展示，不绑定任何命令 -->
+          <Image Source="{Binding LogoImage}"
+                 IsVisible="{Binding HasLogo}"
+                 MaxWidth="360"
+                 MaxHeight="120"
+                 Stretch="Uniform" />
+
+          <!-- 未提供 Logo 时的预留占位框 -->
+          <Panel Width="148" Height="148" IsVisible="{Binding !HasLogo}">
+            <Border Background="{DynamicResource CvLogoPlateBrush}" CornerRadius="26">
+              <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="8">
+                <TextBlock Text="CV"
+                           FontSize="40"
+                           FontWeight="SemiBold"
+                           HorizontalAlignment="Center"
+                           Foreground="{DynamicResource CvTextTertiaryBrush}" />
+                <TextBlock Text="Logo 预留位"
+                           FontSize="12"
+                           HorizontalAlignment="Center"
+                           Foreground="{DynamicResource CvTextTertiaryBrush}" />
+              </StackPanel>
+            </Border>
+
+            <Rectangle Stroke="{DynamicResource CvDividerBrush}"
+                       StrokeThickness="1.5"
+                       StrokeDashArray="5,4"
+                       RadiusX="26"
+                       RadiusY="26" />
+          </Panel>
+        </Panel>
+
+        <TextBlock Text="跨平台PPT放映与板书批注工具"
+                   FontSize="16"
+                   HorizontalAlignment="Center"
+                   Foreground="{DynamicResource CvTextSecondaryBrush}" />
+
+        <!-- 版本号动态绑定（读取程序集元数据，不硬编码） -->
+        <TextBlock Text="{Binding VersionText}"
+                   FontSize="14"
+                   HorizontalAlignment="Center"
+                   Foreground="{DynamicResource CvTextSecondaryBrush}" />
+
+        <TextBlock Text="Developed by NoxBlaze"
+                   FontSize="14"
+                   HorizontalAlignment="Center"
+                   Foreground="{DynamicResource CvTextTertiaryBrush}" />
+      </StackPanel>
+
+      <!-- 4. 软件简介 -->
+      <StackPanel Spacing="8">
+        <TextBlock Classes="body"
+                   Text="ClassVane Canvas 是一款面向教学场景的跨平台 PPT 放映批注软件，支持 PPT 全屏放映、原生动画与页面转场、画布漫游缩放、手写板书批注。内置自研笔迹引擎，书写手感模仿希沃白板 5，支持触摸屏、电磁手写笔、压感粗细变化、笔尖斜锋、轨迹防抖平滑；本机独立记录 PPT 上课播放进度，换电脑不会同步进度；板书笔迹保存在外置独立 .cvcanno 批注文件，将 PPT 和批注文件一同拷贝，在其他装有本软件的电脑打开即可加载板书；支持批注文件 WebDAV 自持同步；笔迹独立图层，不修改原始 PPT 文件，每页批注独立保存，支持导出带批注 PDF。" />
+
+        <WrapPanel Orientation="Horizontal">
+          <TextBlock Classes="body" Text="本软件是自由开源软件，遵循 " VerticalAlignment="Center" />
+          <HyperlinkButton Classes="link"
+                           Command="{Binding OpenLicenseCommand}"
+                           VerticalAlignment="Center">
+            <TextBlock Text="GNU General Public License v3.0"
+                       FontSize="14"
+                       TextDecorations="Underline" />
+          </HyperlinkButton>
+          <TextBlock Classes="body" Text="。" VerticalAlignment="Center" />
+        </WrapPanel>
+      </StackPanel>
+
+      <Border Classes="divider" Margin="0,4" />
+
+      <!-- 5. 开源项目致谢 -->
+      <TextBlock Classes="sectionTitle" Text="开源项目致谢" />
+
+      <ScrollViewer MaxHeight="296"
+                    VerticalScrollBarVisibility="Auto"
+                    HorizontalScrollBarVisibility="Disabled">
+        <!-- 新增依赖：在 AboutViewModel.Acknowledgements 中追加一项即可 -->
+        <ItemsControl ItemsSource="{Binding Acknowledgements}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate DataType="models:ThirdPartyNotice">
+              <Border Classes="noticeCard" Margin="0,0,10,12">
+                <StackPanel Spacing="4">
+                  <TextBlock Text="{Binding Name}"
+                             FontSize="14"
+                             FontWeight="SemiBold"
+                             Foreground="{DynamicResource CvTextPrimaryBrush}" />
+
+                  <TextBlock Classes="caption"
+                             Text="{Binding Summary}"
+                             IsVisible="{Binding HasSummary}" />
+
+                  <!-- 仓库链接：下划线 + 可点击，调用系统浏览器 -->
+                  <HyperlinkButton Classes="link"
+                                   Command="{Binding $parent[ItemsControl].((vm:AboutViewModel)DataContext).OpenRepositoryCommand}"
+                                   CommandParameter="{Binding}">
+                    <TextBlock Text="{Binding RepositoryUrl}"
+                               FontSize="13"
+                               TextDecorations="Underline" />
+                  </HyperlinkButton>
+
+                  <TextBlock Classes="caption"
+                             Text="{Binding LicenseName, StringFormat='许可证：{0}'}" />
+                </StackPanel>
+              </Border>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </ScrollViewer>
+
+      <Border Classes="divider" Margin="0,4" />
+
+      <!-- 6. 版权声明（GPLv3 标准文本） -->
+      <StackPanel Spacing="12">
+        <TextBlock Classes="legal"
+                   Text="{Binding CopyrightText}"
+                   FontWeight="SemiBold" />
+        <TextBlock Classes="legal"
+                   Text="ClassVane Canvas is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version." />
+        <TextBlock Classes="legal"
+                   Text="This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details." />
+      </StackPanel>
+
+      <Border Classes="divider" Margin="0,4" />
+
+      <!-- 7. 触摸友好的大尺寸按钮组 -->
+      <StackPanel Spacing="12">
+        <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center">
+          <Button Classes="touch accent"
+                  Content="查看 GPLv3 许可证"
+                  Command="{Binding OpenLicenseCommand}"
+                  Margin="8" />
+          <Button Classes="touch"
+                  Content="项目主页"
+                  Command="{Binding OpenHomepageCommand}"
+                  Margin="8" />
+          <Button Classes="touch"
+                  Content="返回设置"
+                  Command="{Binding GoBackCommand}"
+                  Margin="8" />
+        </WrapPanel>
+
+        <!-- 只有链接打开失败时才出现的提示 -->
+        <TextBlock Classes="legal"
+                   Text="{Binding StatusMessage}"
+                   IsVisible="{Binding HasStatusMessage}"
+                   TextAlignment="Center"
+                   HorizontalAlignment="Center"
+                   Foreground="{DynamicResource CvWarningBrush}" />
+      </StackPanel>
+
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

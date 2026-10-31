@@ -1,0 +1,56 @@
+ClassVane Canvas
+Copyright (C) NoxBlaze
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+The handwriting/ink engine of ClassVane Canvas (stroke smoothing,
+pressure and tilt handling, tapered stroke rendering) is an original
+implementation of this project. It does not embed or derive from any
+third-party whiteboard/ink library.
+
+
+Third-party Open Source Notices:
+
+1. Avalonia UI
+Repository: https://github.com/AvaloniaUI/Avalonia
+License: MIT
+Copyright (c) AvaloniaUI OÜ and contributors
+Used as the cross-platform UI framework (windowing, controls, layout,
+rendering backends).
+
+2. CommunityToolkit.Mvvm
+Repository: https://github.com/CommunityToolkit/dotnet
+License: MIT
+Copyright (c) .NET Foundation and Contributors
+Used for MVVM infrastructure (ObservableObject, RelayCommand and the
+corresponding source generators).
+
+
+3. Microsoft.Data.Sqlite
+Repository: https://github.com/dotnet/efcore
+License: MIT
+Copyright (c) .NET Foundation and Contributors
+Used to read and write the local-only playback progress database
+(playback-progress.db). That database never leaves the machine and is
+never uploaded by the annotation sync.
+
+4. SQLite
+Repository: https://sqlite.org
+License: Public Domain
+Embedded database engine used by Microsoft.Data.Sqlite.
+
+
+New third-party dependencies must be appended to this list, and to the
+"Acknowledgements" collection rendered on the About page
+(src/ClassVaneCanvas/ViewModels/Settings/AboutViewModel.cs).

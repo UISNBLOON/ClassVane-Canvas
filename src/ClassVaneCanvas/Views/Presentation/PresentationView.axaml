@@ -1,0 +1,114 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:ClassVaneCanvas.ViewModels.Presentation"
+             xmlns:controls="using:ClassVaneCanvas.Controls"
+             xmlns:ink="using:ClassVaneCanvas.Models.Ink"
+             xmlns:conv="using:ClassVaneCanvas.Views.Converters"
+             x:Class="ClassVaneCanvas.Views.Presentation.PresentationView"
+             x:DataType="vm:PresentationViewModel"
+             x:CompileBindings="True">
+
+  <Grid RowDefinitions="Auto,*,Auto">
+
+    <!-- 悬浮大屏友好工具栏 -->
+    <Border Grid.Row="0"
+            Background="{DynamicResource CvSidebarBackgroundBrush}"
+            BorderBrush="{DynamicResource CvDividerBrush}"
+            BorderThickness="0,0,0,1"
+            Padding="12,10">
+      <WrapPanel Orientation="Horizontal">
+
+        <Button Classes="touch" Content="打开课件" Command="{Binding OpenCoursewareCommand}" Margin="4" />
+        <Button Classes="touch" Content="上一页" Command="{Binding PreviousPageCommand}" Margin="4" />
+        <TextBlock Text="{Binding PageText}" VerticalAlignment="Center" Margin="8,0"
+                   FontSize="15" FontWeight="SemiBold" Foreground="{DynamicResource CvTextPrimaryBrush}" />
+        <TextBox Text="{Binding JumpPageText}" Width="68" MinHeight="40" Margin="4"
+                 VerticalContentAlignment="Center" />
+        <Button Classes="touch" Content="跳转" Command="{Binding JumpToTypedPageCommand}" Margin="4" />
+        <Button Classes="touch" Content="下一页" Command="{Binding NextPageCommand}" Margin="4" />
+
+        <Border Width="1" Background="{DynamicResource CvDividerBrush}" Margin="10,2" />
+
+        <Button Classes="touch" Classes.accent="{Binding IsHardPenSelected}" Content="硬笔"
+                Command="{Binding SelectToolCommand}" CommandParameter="{x:Static ink:InkTool.HardPen}" Margin="4" />
+        <Button Classes="touch" Classes.accent="{Binding IsMarkerSelected}" Content="马克笔"
+                Command="{Binding SelectToolCommand}" CommandParameter="{x:Static ink:InkTool.Marker}" Margin="4" />
+        <Button Classes="touch" Classes.accent="{Binding IsHighlighterSelected}" Content="荧光笔"
+                Command="{Binding SelectToolCommand}" CommandParameter="{x:Static ink:InkTool.Highlighter}" Margin="4" />
+        <Button Classes="touch" Classes.accent="{Binding IsEraserSelected}" Content="橡皮擦"
+                Command="{Binding SelectToolCommand}" CommandParameter="{x:Static ink:InkTool.Eraser}" Margin="4" />
+
+        <!-- 调色板 -->
+        <ItemsControl ItemsSource="{Binding Palette}" Margin="6,0" VerticalAlignment="Center">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <StackPanel Orientation="Horizontal" Spacing="6" />
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <Button Width="34" Height="34" CornerRadius="17" Padding="0"
+                      BorderBrush="{DynamicResource CvCardBorderBrush}" BorderThickness="1"
+                      Background="{Binding Converter={x:Static conv:ArgbToBrushConverter.Instance}}"
+                      Command="{Binding $parent[ItemsControl].((vm:PresentationViewModel)DataContext).SelectColorCommand}"
+                      CommandParameter="{Binding}" />
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <Border Width="1" Background="{DynamicResource CvDividerBrush}" Margin="10,2" />
+
+        <Button Classes="touch" Content="撤销" Command="{Binding UndoCommand}" Margin="4" />
+        <Button Classes="touch" Content="重做" Command="{Binding RedoCommand}" Margin="4" />
+        <Button Classes="touch danger" Content="清本页批注" Command="{Binding ClearPageAnnotationsCommand}" Margin="4" />
+
+        <Border Width="1" Background="{DynamicResource CvDividerBrush}" Margin="10,2" />
+
+        <Button Classes="touch" Content="黑屏" Command="{Binding ToggleBlackScreenCommand}" Margin="4" />
+        <Button Classes="touch" Content="白屏" Command="{Binding ToggleWhiteScreenCommand}" Margin="4" />
+        <Button Classes="touch" Content="复位视图" Command="{Binding ResetViewCommand}" Margin="4" />
+        <Button Classes="touch" Content="截图" Command="{Binding ScreenshotCommand}" Margin="4" />
+        <Button Classes="touch" Content="保存批注" Command="{Binding SaveAnnotationsCommand}" Margin="4" />
+        <Button Classes="touch" Content="导出 PDF" Command="{Binding ExportPdfCommand}" Margin="4" />
+        <Button Classes="touch" Content="退出放映" Command="{Binding ExitCommand}" Margin="4" />
+      </WrapPanel>
+    </Border>
+
+    <!-- 画布：幻灯片 + 板书批注（笔迹在页面坐标系中跟随画布变换，不变形） -->
+    <Border Grid.Row="1" Background="{DynamicResource CvPageBackgroundBrush}">
+      <controls:InkCanvas State="{Binding Canvas}" />
+    </Border>
+
+    <!-- 缩略图导航 + 状态栏 -->
+    <Border Grid.Row="2"
+            Background="{DynamicResource CvSidebarBackgroundBrush}"
+            BorderBrush="{DynamicResource CvDividerBrush}"
+            BorderThickness="0,1,0,0"
+            Padding="12,10">
+      <StackPanel Spacing="8">
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+          <ItemsControl ItemsSource="{Binding Thumbnails}">
+            <ItemsControl.ItemsPanel>
+              <ItemsPanelTemplate>
+                <StackPanel Orientation="Horizontal" Spacing="6" />
+              </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+              <DataTemplate DataType="vm:SlideThumbnailViewModel">
+                <Button MinWidth="52" MinHeight="40" Padding="10,6" CornerRadius="8"
+                        Content="{Binding Label}"
+                        Classes.accent="{Binding IsCurrent}"
+                        Command="{Binding $parent[ItemsControl].((vm:PresentationViewModel)DataContext).GoToPageCommand}"
+                        CommandParameter="{Binding PageIndex}" />
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </ScrollViewer>
+
+        <TextBlock Text="{Binding StatusText}" FontSize="12" TextWrapping="Wrap"
+                   Foreground="{DynamicResource CvTextSecondaryBrush}" />
+      </StackPanel>
+    </Border>
+
+  </Grid>
+</UserControl>

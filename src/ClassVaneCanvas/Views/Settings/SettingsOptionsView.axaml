@@ -1,0 +1,154 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:ClassVaneCanvas.ViewModels.Settings"
+             xmlns:options="using:ClassVaneCanvas.ViewModels.Settings.Options"
+             x:Class="ClassVaneCanvas.Views.Settings.SettingsOptionsView"
+             x:DataType="vm:SettingsOptionsPageViewModel"
+             x:CompileBindings="True">
+
+  <UserControl.Styles>
+    <Style Selector="Border.optionCard">
+      <Setter Property="Background" Value="{DynamicResource CvCardBackgroundBrush}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource CvCardBorderBrush}" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="10" />
+      <Setter Property="Padding" Value="16,14" />
+    </Style>
+    <Style Selector="TextBlock.optionTitle">
+      <Setter Property="FontSize" Value="14" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+      <Setter Property="Foreground" Value="{DynamicResource CvTextPrimaryBrush}" />
+    </Style>
+    <Style Selector="TextBlock.optionHint">
+      <Setter Property="FontSize" Value="12" />
+      <Setter Property="TextWrapping" Value="Wrap" />
+      <Setter Property="Foreground" Value="{DynamicResource CvTextTertiaryBrush}" />
+    </Style>
+    <Style Selector="TextBlock.sectionTitle">
+      <Setter Property="FontSize" Value="16" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+      <Setter Property="Foreground" Value="{DynamicResource CvTextPrimaryBrush}" />
+    </Style>
+  </UserControl.Styles>
+
+  <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+    <StackPanel MaxWidth="820" HorizontalAlignment="Center" Margin="32,28,32,40" Spacing="12">
+
+      <TextBlock Text="{Binding Title}" FontSize="26" FontWeight="SemiBold"
+                 Foreground="{DynamicResource CvTextPrimaryBrush}" />
+      <TextBlock Text="{Binding Description}" FontSize="14" TextWrapping="Wrap"
+                 Foreground="{DynamicResource CvTextSecondaryBrush}" />
+      <Border Classes="divider" Margin="0,4" />
+
+      <ItemsControl ItemsSource="{Binding Options}">
+        <ItemsControl.DataTemplates>
+
+          <!-- 分组标题 -->
+          <DataTemplate DataType="options:SectionOptionViewModel">
+            <StackPanel Spacing="2" Margin="0,14,0,2">
+              <TextBlock Classes="sectionTitle" Text="{Binding Title}" />
+              <TextBlock Classes="optionHint" Text="{Binding Hint}" IsVisible="{Binding HasHint}" />
+            </StackPanel>
+          </DataTemplate>
+
+          <!-- 开关 -->
+          <DataTemplate DataType="options:ToggleOptionViewModel">
+            <Border Classes="optionCard" Margin="0,4">
+              <Grid ColumnDefinitions="*,Auto">
+                <StackPanel Grid.Column="0" Spacing="3" Margin="0,0,16,0">
+                  <TextBlock Classes="optionTitle" Text="{Binding Title}" />
+                  <TextBlock Classes="optionHint" Text="{Binding Hint}" IsVisible="{Binding HasHint}" />
+                </StackPanel>
+                <ToggleSwitch Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding Value}" />
+              </Grid>
+            </Border>
+          </DataTemplate>
+
+          <!-- 滑杆 -->
+          <DataTemplate DataType="options:SliderOptionViewModel">
+            <Border Classes="optionCard" Margin="0,4">
+              <StackPanel Spacing="6">
+                <Grid ColumnDefinitions="*,Auto">
+                  <TextBlock Grid.Column="0" Classes="optionTitle" Text="{Binding Title}" />
+                  <TextBlock Grid.Column="1" Classes="optionTitle" Text="{Binding ValueText}"
+                             Foreground="{DynamicResource CvTextSecondaryBrush}" />
+                </Grid>
+                <Slider Minimum="{Binding Minimum}"
+                        Maximum="{Binding Maximum}"
+                        TickFrequency="{Binding Step}"
+                        Value="{Binding Value}" />
+                <TextBlock Classes="optionHint" Text="{Binding Hint}" IsVisible="{Binding HasHint}" />
+              </StackPanel>
+            </Border>
+          </DataTemplate>
+
+          <!-- 下拉选项 -->
+          <DataTemplate DataType="options:ChoiceOptionViewModel">
+            <Border Classes="optionCard" Margin="0,4">
+              <StackPanel Spacing="8">
+                <TextBlock Classes="optionTitle" Text="{Binding Title}" />
+                <ComboBox ItemsSource="{Binding Items}" SelectedItem="{Binding Selected}"
+                          HorizontalAlignment="Stretch" MinHeight="40">
+                  <ComboBox.ItemTemplate>
+                    <DataTemplate DataType="options:ChoiceItem">
+                      <TextBlock Text="{Binding Label}" TextWrapping="Wrap" />
+                    </DataTemplate>
+                  </ComboBox.ItemTemplate>
+                </ComboBox>
+                <TextBlock Classes="optionHint" Text="{Binding Hint}" IsVisible="{Binding HasHint}" />
+              </StackPanel>
+            </Border>
+          </DataTemplate>
+
+          <!-- 文本输入 -->
+          <DataTemplate DataType="options:TextOptionViewModel">
+            <Border Classes="optionCard" Margin="0,4">
+              <StackPanel Spacing="8">
+                <TextBlock Classes="optionTitle" Text="{Binding Title}" />
+                <TextBox Text="{Binding Value}"
+                         Watermark="{Binding Watermark}"
+                         PasswordChar="{Binding PasswordChar}"
+                         IsEnabled="{Binding IsEnabled}"
+                         MinHeight="40" />
+                <TextBlock Classes="optionHint" Text="{Binding Hint}" IsVisible="{Binding HasHint}" />
+              </StackPanel>
+            </Border>
+          </DataTemplate>
+
+          <!-- 只读信息 -->
+          <DataTemplate DataType="options:InfoOptionViewModel">
+            <Border Classes="optionCard" Margin="0,4">
+              <StackPanel Spacing="3">
+                <TextBlock Classes="optionTitle" Text="{Binding Title}" />
+                <TextBlock Text="{Binding Value}" FontSize="13" TextWrapping="Wrap"
+                           Foreground="{DynamicResource CvTextSecondaryBrush}" />
+                <TextBlock Classes="optionHint" Text="{Binding Hint}" IsVisible="{Binding HasHint}" />
+              </StackPanel>
+            </Border>
+          </DataTemplate>
+
+          <!-- 操作按钮 -->
+          <DataTemplate DataType="options:ButtonOptionViewModel">
+            <Border Classes="optionCard" Margin="0,4">
+              <Grid ColumnDefinitions="*,Auto">
+                <StackPanel Grid.Column="0" Spacing="3" Margin="0,0,16,0">
+                  <TextBlock Classes="optionTitle" Text="{Binding Title}" />
+                  <TextBlock Classes="optionHint" Text="{Binding Hint}" IsVisible="{Binding HasHint}" />
+                </StackPanel>
+                <Button Grid.Column="1"
+                        Classes="touch"
+                        Classes.accent="{Binding IsPrimary}"
+                        Classes.danger="{Binding IsDanger}"
+                        Command="{Binding Command}"
+                        Content="{Binding Title}"
+                        VerticalAlignment="Center" />
+              </Grid>
+            </Border>
+          </DataTemplate>
+
+        </ItemsControl.DataTemplates>
+      </ItemsControl>
+
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

@@ -1,0 +1,35 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="ClassVaneCanvas.Views.Dialogs.ResumePromptDialog"
+        Title="恢复上次播放位置"
+        Width="520"
+        SizeToContent="Height"
+        CanResize="False"
+        ShowInTaskbar="False"
+        WindowStartupLocation="CenterOwner"
+        FontFamily="{DynamicResource CvFontFamily}">
+  <StackPanel Margin="28" Spacing="18">
+    <TextBlock Text="恢复上次播放位置"
+               FontSize="20"
+               FontWeight="SemiBold"
+               Foreground="{DynamicResource CvTextPrimaryBrush}" />
+
+    <!-- 文案：上次在本机播放到第 X / Y 页（上次放映：YYYY-MM-DD HH:mm），是否跳转至该页面？ -->
+    <TextBlock x:Name="MessageText"
+               FontSize="14"
+               LineHeight="24"
+               TextWrapping="Wrap"
+               Foreground="{DynamicResource CvTextPrimaryBrush}" />
+
+    <TextBlock Text="该记录只保存在本机，换到其它电脑打开同一份课件不会提示。"
+               FontSize="12"
+               TextWrapping="Wrap"
+               Foreground="{DynamicResource CvTextTertiaryBrush}" />
+
+    <StackPanel Orientation="Horizontal" Spacing="12" HorizontalAlignment="Right">
+      <Button x:Name="NeverPromptButton" Classes="touch" Content="不再提示此文件" MinWidth="150" />
+      <Button x:Name="StartOverButton" Classes="touch" Content="从头开始" MinWidth="130" />
+      <Button x:Name="JumpButton" Classes="touch accent" Content="跳转至该页" MinWidth="130" />
+    </StackPanel>
+  </StackPanel>
+</Window>
